@@ -43,7 +43,7 @@ PHASE IV and beyond - Etc
 + Generate printed reports - shopping lists, work history
 + Other requests for changes/improvements
 
-Other "Enhancements" that have been recommended and discarded :oP
------------------------------------------------------------------
+Other "Enhancements" that have been recommended and discarded :oP AKA PHASE VI
+------------------------------------------------------------------------------
 
 + Media player that loops "I'm on a Boat" (by The Lonely Island) indefinitely.
