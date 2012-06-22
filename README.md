@@ -11,10 +11,10 @@ This is going to take some work, but I'd like to have a working project early on
 PHASE I - Getting some basics built
 -----------------------------------
 
-+ Basic scheduling - task templates (for recurring tasks) and tasks
++ Basic scheduling (recurring tasks and one-off tasks, with due dates)
++ Maintenance log for recording completed tasks
 + Simple equipment list
-+ Dashboard with a list of upcoming tasks
-+ Routine that creates new tasks based on current date and latest hours for a piece of equipment
++ Dashboard with a list of upcoming tasks, upcoming warranty expiration
 + Backup/restore data
 
 PHASE II - Focus on expanding task templates
