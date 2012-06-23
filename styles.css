@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+body
+{
+	font-family: Verdana, Geneva, sans-serif;
+	font-size:12px;
+}
+
+h1
+{
+	font-size: 1.2em;
+}
+
+#Navigation {
+	font-weight: bold;
+	text-align:center;
+	margin-bottom: 30px;
+}
+
+#Title {
+	text-align: center;	
+}
+
+#Title p {
+	margin-top: 3px;
+	margin-bottom: 0px;
+}
+
+#TitleTitle {
+	font-weight: bold;
+	font-size: 1.5em;	
+	text-align: center;
+}
+
+#DataList {
+	border-collapse:collapse;	
+}
+
+#DataList .TableHeading {
+	font-weight: bold;
+	background-color: #CCCCCC;
+}
+
+#DataList TR
+{
+	border-width: 1px;
+	border-color: #CCCCCC;
+	border-style: solid;	
+}
+
+#DataList .TableHeading TD {
+	border-bottom-width: 1px;
+	border-bottom-color: #000000;
+	border-bottom-style: solid;	
+	border-top-width: 0px;
+}
