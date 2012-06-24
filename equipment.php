@@ -274,10 +274,6 @@ function list_users()
 		
 		//convert status to readable string from 1 or 0 
         //($status == 0) ? $status = "Available to contact" : $status = "Do not contact at present."; 
-        
-// **************		
-// ************** JILL - COME BACK HERE TO ADD MORE EQUIPMENT COLUMNS
-// **************
 		
 		//echo out the row 
         echo "<tr>

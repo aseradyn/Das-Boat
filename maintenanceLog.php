@@ -179,8 +179,46 @@ function show_form($handle='',$data='')
         <td><input name="TaskName" type="text" value="<?php echo $TaskName?>"> </td> 
       </tr> 
       <tr> 
-       <td align="right">Equipment ID: </td> 
-       <td><input name="EquipmentID" type="text" value="<?php echo $EquipmentID?>"> </td> 
+       <?php
+	  
+	  // Pick list for Equipment
+	  
+	  $queryitem = "SELECT id, EquipmentName FROM equipment;";
+	  $result = conn($queryitem); 
+
+    	// Successful query?
+    	if($result = mysql_query($queryitem))  {
+
+      	// If there are results returned, prepare combo-box
+      	if($success = mysql_num_rows($result) > 0) {
+        // Start combo-box
+        echo "<td align='right'>Equipment ID: </td><td><select name='EquipmentID'>";
+        echo "<option>-- Select Item --</option>";
+
+        // For each item in the results...
+        while ($row = mysql_fetch_array($result)) {
+          // Add a new option to the combo-box
+		  
+		  	$tempid = $row['id'];
+		  	if ($tempid == $EquipmentID){
+				echo "<option value='$tempid' selected>$row[EquipmentName]</option>";
+			
+			} else {	  
+		  	echo "<option value='$tempid'>$row[EquipmentName]</option>";
+			
+		  	}
+		  
+		}
+        // End the combo-box
+        echo "</select>";
+      }
+      // No results found in the database
+      else { echo "No results found."; }
+    }
+    // Error in the database
+    else { echo "Failed to connect to database."; }
+	  
+	  ?> 
       </tr> 
       <tr> 
         <td align="right">Date: </td> 
@@ -231,13 +269,13 @@ function show_form_taskid($handle='',$data='')
   $Notes			= '';
   $id         		= ''; 
   $value      		= 'Add';  //submit button value 
-  $action     		= 'addTask';  //default form action is to add a new kid to db 
+  $action     		= 'Task';  //default form action is to add a new kid to db 
 
   //set the action based on what the user wants to do 
   if ($handle) 
   { 
     //set form values for button and action 
-    $action = "addTask"; 
+    $action = "Task"; 
     $value  = "Add"; 
     
     //get the values from the db resultset 
@@ -278,8 +316,46 @@ function show_form_taskid($handle='',$data='')
         <td><input name="TaskName" type="text" value="<?php echo $TaskName?>"> </td> 
       </tr> 
       <tr> 
-       <td align="right">Equipment ID: </td> 
-       <td><input name="EquipmentID" type="text" value="<?php echo $EquipmentID?>"> </td> 
+       <?php
+	  
+	  // Pick list for Equipment
+	  
+	  $queryitem = "SELECT id, EquipmentName FROM equipment;";
+	  $result = conn($queryitem); 
+
+    	// Successful query?
+    	if($result = mysql_query($queryitem))  {
+
+      	// If there are results returned, prepare combo-box
+      	if($success = mysql_num_rows($result) > 0) {
+        // Start combo-box
+        echo "<td align='right'>Equipment: </td><td><select name='EquipmentID'>";
+        echo "<option>-- Select Item --</option>";
+
+        // For each item in the results...
+        while ($row = mysql_fetch_array($result)) {
+          // Add a new option to the combo-box
+		  
+		  	$tempid = $row['id'];
+		  	if ($tempid == $EquipmentID){
+				echo "<option value='$tempid' selected>$row[EquipmentName]</option>";
+			
+			} else {	  
+		  	echo "<option value='$tempid'>$row[EquipmentName]</option>";
+			
+		  	}
+		  
+		}
+        // End the combo-box
+        echo "</select>";
+      }
+      // No results found in the database
+      else { echo "No results found."; }
+    }
+    // Error in the database
+    else { echo "Failed to connect to database."; }
+	  
+	  ?> 
       </tr> 
       <tr> 
         <td align="right">Date: </td> 
@@ -426,14 +502,11 @@ function process_form()
     die(); 
   }//end if 
     
-   if ($action == "add") 
-  { 
+   if ($action == "add") { 
     $sql = "insert into maintenanceLog (TaskName, EquipmentID, Date, EquipmentHours, Notes) values('$TaskName','$EquipmentID','$Date','$EquipmentHours','$Notes')"; 
     $msg = "Record successfully added"; 
   
-  
-  } elseif ($action == "addTask") 
-  { 
+  } elseif ($action == "Task") { 
     $sql = "insert into 
 				maintenanceLog 
 			(
@@ -449,46 +522,38 @@ function process_form()
 				'$EquipmentHours',
 				'$Notes'
 			)"; 
-    /*$sql = "update 
-				tasksRecurring 
-			set 
-				LastDate = '$Date', 
-				LastHours = '$EquipmentHours' 
-			where 
-				id = $id";
+			$result = conn($sql);
+    $sql = "update tasksRecurring set LastDate = '$Date', LastHours = '$EquipmentHours' where id = $id";
+	$result = conn($sql);
 	
-	if ($EquipmentHours == '0') {
-		die();
-	} else {
-		// Should also check whether new equipment hours > current equipment hours
-		$sql = "update equipment set Hours = 'EquipmentHours' where id = $EquipmentID";
-	} */
+	// check for Equipment ID
+	if ($EquipmentID != '-- Select Item --') {
+	
+		if ($EquipmentHours != '0') {
+			
+			$sql = "update 
+						equipment 
+					set 
+						Hours = '$EquipmentHours', 
+						HoursDate = '$Date'
+					where 
+						id = $EquipmentID";
+		} 
 	
     $msg = "Record successfully added"; 
+  }
   
   }elseif($action=="edit"){ 
     $sql = "update maintenanceLog set TaskName = '$TaskName', EquipmentID = '$EquipmentID', Date = '$Date', EquipmentHours = '$EquipmentHours', Notes = '$Notes' where id = $id"; 
     $msg = "Record successfully updated"; 
   } 
-  $result = conn($sql); 
-  
-  if (mysql_errno()==0) 
-  { 
-    confirm($msg); 
-    list_users(); 
-  }else{ 
-    $msg = "There was a problem adding the record to the database. Error is:".mysql_error(); 
-    confirm($msg); 
-  }//end if 
-     
-	 
-
 
   $result = conn($sql); 
   if (mysql_errno()==0) 
   { 
     confirm($msg); 
-    list_users(); 
+	// send them back to the tasks page.
+    header('Location: recurringTasks.php'); 
   }else{ 
     $msg = "There was a problem adding the record to the database. Error is:".mysql_error(); 
     confirm($msg); 

@@ -144,8 +144,48 @@ function show_form($handle='',$data='')
         <td><input name="TaskName" type="text" value="<?php echo $TaskName?>"> </td> 
       </tr> 
       <tr> 
-       <td align="right">Equipment ID: </td> 
-       <td><input name="EquipmentID" type="text" value="<?php echo $EquipmentID?>"> </td> 
+      
+      <?php
+	  
+	  // Pick list for Equipment
+	  
+	  $queryitem = "SELECT id, EquipmentName FROM equipment;";
+	  $result = conn($queryitem); 
+
+    	// Successful query?
+    	if($result = mysql_query($queryitem))  {
+
+      	// If there are results returned, prepare combo-box
+      	if($success = mysql_num_rows($result) > 0) {
+        // Start combo-box
+        echo "<td align='right'>Equipment ID: </td><td><select name='EquipmentID'>";
+        echo "<option>-- Select Item --</option>";
+
+        // For each item in the results...
+        while ($row = mysql_fetch_array($result)) {
+          // Add a new option to the combo-box
+		  
+		  	$tempid = $row['id'];
+		  	if ($tempid == $EquipmentID){
+				echo "<option value='$tempid' selected>$row[EquipmentName]</option>";
+			
+			} else {	  
+		  	echo "<option value='$tempid'>$row[EquipmentName]</option>";
+			
+		  	}
+		  
+		}
+        // End the combo-box
+        echo "</select>";
+      }
+      // No results found in the database
+      else { echo "No results found."; }
+    }
+    // Error in the database
+    else { echo "Failed to connect to database."; }
+	  
+	  ?>
+      
       </tr> 
       <tr> 
         <td align="right">Interval Type: </td> 

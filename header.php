@@ -8,7 +8,7 @@
 
 <body>
 <div id="Title">
-	<p id="TitleTitle">Float Your Boat</p>
+	<p id="TitleTitle">Da's Boat</p>
 	<p id="TitleSubTitle">The amazing all-in-one boat management tool!</p>
 </div>
 <div id="Navigation">
